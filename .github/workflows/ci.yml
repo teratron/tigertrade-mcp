@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  CI: true
+
+jobs:
+  build:
+    name: build & test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Print .NET info
+        run: dotnet --info
+
+      - name: Restore
+        run: dotnet restore TigerTradeMcp.slnx
+
+      - name: Build
+        run: dotnet build TigerTradeMcp.slnx --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test TigerTradeMcp.slnx --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}
+          path: TestResults
+          if-no-files-found: ignore
+
+      - name: Vulnerable package scan
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          set -e
+          dotnet list TigerTradeMcp.slnx package --vulnerable --include-transitive | tee vulnerable.txt
+          if grep -E "^\s*>\s" vulnerable.txt; then
+            echo "::error::Vulnerable packages found"
+            exit 1
+          fi
+
+  publish-smoke:
+    name: publish smoke (win-x64)
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish server (framework-dependent)
+        run: dotnet publish src/TigerTradeMcp.Server/TigerTradeMcp.Server.csproj --configuration Release --runtime win-x64 --no-self-contained --output artifacts/server
+
+      - name: Publish CLI (framework-dependent)
+        run: dotnet publish src/TigerTradeMcp.Cli/TigerTradeMcp.Cli.csproj --configuration Release --runtime win-x64 --no-self-contained --output artifacts/cli
+
+      - name: Upload publish artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-win-x64
+          path: artifacts
+          retention-days: 7

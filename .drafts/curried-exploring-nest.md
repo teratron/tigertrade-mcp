@@ -21,7 +21,7 @@ User-выбор: гибрид (чтение чарта + торговля), бр
 Краткое обоснование (углублённый анализ под выбор пользователя):
 
 | Фактор | C# / .NET 8 | Python | TypeScript |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | TigerTrade Indicator SDK | **Native, in-process, zero IPC** | Нужен C# мост + IPC | Нужен C# мост + IPC |
 | Quik (QUIK#) | **Native .NET** | quik-lua-rpc через ZMQ | через ZMQ |
 | Transaq | XML connector (COM/.NET-friendly) | transaq_connector | через мост |
@@ -201,7 +201,7 @@ MT5 — единственный case, где Python имеет преимуще
 ## Critical files to create (Phase 0-1)
 
 | Файл | Назначение |
-|---|---|
+| --- | --- |
 | `TigerTradeMcp.sln` | Решение |
 | `src/TigerTradeMcp.Server/Program.cs` | Entry point + DI + MCP host |
 | `src/TigerTradeMcp.Server/Tools/TigerTools.cs` | MCP tools для Tiger API |
@@ -256,7 +256,7 @@ MT5 — единственный case, где Python имеет преимуще
 ## Risks & Mitigations
 
 | Риск | Митигация |
-|---|---|
+| --- | --- |
 | Tiger API ws@7819 в новых версиях TigerTrade сломан/изменён | Версионная проверка через handshake, graceful degrade, тесты с реальным терминалом в CI manual job |
 | LLM случайно выставит реальный ордер | `--enable-trading` фичефлаг + `dry_run: true` default + обязательный `confirm` + audit log |
 | EULA 4.3.1 запрещает reverse engineering | Идём только через документированные SDK (Tiger API ws + Indicator SDK + внешние брокерские API). `TigerTrade.Api.dll` не трогаем |

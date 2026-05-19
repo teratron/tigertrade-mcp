@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TigerTradeMcp.Cli/TigerTradeMcp.Cli.csproj" />
+    <Project Path="src/TigerTradeMcp.Core/TigerTradeMcp.Core.csproj" />
+    <Project Path="src/TigerTradeMcp.Server/TigerTradeMcp.Server.csproj" />
+    <Project Path="src/TigerTradeMcp.TigerLink/TigerTradeMcp.TigerLink.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TigerTradeMcp.Tests/TigerTradeMcp.Tests.csproj" />
+  </Folder>
+</Solution>

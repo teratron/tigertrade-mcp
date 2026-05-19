@@ -23,6 +23,24 @@ dist/
 cache/
 temp/
 
+# .NET build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+.vs/
+TestResults/
+*.coverage
+*.coveragexml
+coverage.*.xml
+*.nupkg
+*.snupkg
+artifacts/
+publish/
+# Audit/trading runtime files (never commit)
+logs/trading-audit-*.jsonl
+
 # Temporary folders
 tmp/
 temp/
