@@ -40,9 +40,9 @@ A hardlink to `CLAUDE.md` (and `GEMINI.md`, `CODEX.md` etc. as needed) is create
 ## 6. Reference Materials
 
 - Implementation plan: `C:\Users\Oleg\.claude\plans\curried-exploring-nest.md`
-- Tiger API docs: https://support.tiger.com/english/development-for-tiger.trade-windows/tiger-api
-- Indicator SDK docs: https://support.tiger.com/english/development-for-tiger.trade-windows
-- EULA: https://www.tiger.com/terminal/end-user-license-agreement
+- Tiger API docs: <https://support.tiger.com/english/development-for-tiger.trade-windows/tiger-api>
+- Indicator SDK docs: <https://support.tiger.com/english/development-for-tiger.trade-windows>
+- EULA: <https://www.tiger.com/terminal/end-user-license-agreement>
 
 ## 7. Completion Checklist (per task)
 
